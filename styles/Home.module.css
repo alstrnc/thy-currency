@@ -26,11 +26,15 @@
   align-items: center;
 }
 
-.footer a {
-  display: flex;
+.footerLink {
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
+}
+
+.footerAvatar {
+  border-radius: 2rem;
+  margin-right: .75rem;
 }
 
 .title a {
@@ -67,6 +71,10 @@
   font-size: 1.1rem;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.Converter {
+  margin-top: 40px;
 }
 
 .grid {

@@ -1,0 +1,17 @@
+.Form {
+
+}
+
+.FormWrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.FormControl {
+  display: inline-flex;
+  justify-content: center;
+  align-items: baseline;
+}
