@@ -1,59 +1,51 @@
 import { nanoid } from 'nanoid'
 import React from 'react'
-import { Control, IControlChangeParams } from './control'
+import { Control } from './control'
 import css from './converter.module.scss'
+import { CurrencySelect } from './currency-select/currency-select'
+import { Currency, currencyLabel } from './currency.enum'
 
 interface IConverterState {
-  entries: IConverterEntry[]
-}
-
-interface IConverterEntry {
-  id: string
-  value: number
-  currency: string
+  sourceValue: number
+  resultValue: number
+  targetCurrency: Currency
 }
 
 export class Converter extends React.Component<{}, IConverterState> {
   constructor(props) {
     super(props)
     this.state = {
-      entries: [
-        {
-          id: this._setId(),
-          value: 100,
-          currency: 'RUB'
-        },
-        {
-          id: this._setId(),
-          value: 7500,
-          currency: 'USD'
-        }
-      ]
+      sourceValue: 0,
+      resultValue: 0,
+      targetCurrency: Currency.RUB,
     }
 
     this.convert = this.convert.bind(this)
   }
 
-  convert({ id, updatedValue, currency }: IControlChangeParams): void {
-    this.setState(({ entries: prevEntries }) => {
-      const entries = prevEntries.map(entry => entry.id === id ? { ...entry, currency, value: updatedValue } : { ...entry })
-      return { entries }
+  convert(updatedValue: number): void {
+    this.setState({
+      sourceValue: updatedValue,
+      resultValue: this._getResult(updatedValue)
     })
+  }
+
+  private _getResult(sourceValue: number): number {
+    return sourceValue
   }
 
   render() {
     return (
       <form className={css.Form}>
         <div className={css.FormWrap}>
-          {this.state.entries.map(entry =>
-            <Control value={entry.value} id={entry.id} key={entry.id} currentCurrency={entry.currency} onChange={this.convert} />
-          )}
+          <label>{currencyLabel[Currency.USD]}</label>
+          <Control value={this.state.sourceValue} onChange={this.convert} />
+          <CurrencySelect />
+        </div>
+        <div className={css.FormWrap}>
+          <output className={css.FormOutput}>{this.state.resultValue}</output>
         </div>
       </form>
     )
-  }
-
-  private _setId(): string {
-    return nanoid(20);
   }
 }
