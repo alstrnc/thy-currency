@@ -1,5 +1,5 @@
 import React from "react";
-import { Currency, currencyLabel } from "../currency.enum";
+import { Currency, currencyLabel } from "../currency.interface";
 
 export const CurrencySelect: React.FC = () => {
   return <div>

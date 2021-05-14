@@ -1,5 +1,4 @@
-import React, { FormEvent } from "react";
-import { Currency } from "./currency.enum";
+import React from "react";
 
 export interface IControlProps {
   value: number;

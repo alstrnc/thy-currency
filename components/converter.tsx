@@ -3,7 +3,7 @@ import React from 'react'
 import { Control } from './control'
 import css from './converter.module.scss'
 import { CurrencySelect } from './currency-select/currency-select'
-import { Currency, currencyLabel } from './currency.enum'
+import { Currency, currencyLabel } from './currency.interface'
 
 interface IConverterState {
   sourceValue: number
@@ -19,8 +19,6 @@ export class Converter extends React.Component<{}, IConverterState> {
       resultValue: 0,
       targetCurrency: Currency.RUB,
     }
-
-    this.convert = this.convert.bind(this)
   }
 
   convert(updatedValue: number): void {
@@ -39,7 +37,7 @@ export class Converter extends React.Component<{}, IConverterState> {
       <form className={css.Form}>
         <div className={css.FormWrap}>
           <label>{currencyLabel[Currency.USD]}</label>
-          <Control value={this.state.sourceValue} onChange={this.convert} />
+          <Control value={this.state.sourceValue} onChange={e => this.convert(e)} />
           <CurrencySelect />
         </div>
         <div className={css.FormWrap}>
