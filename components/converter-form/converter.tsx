@@ -66,14 +66,16 @@ export class Converter extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <form className={css.Form}>
+      <form>
         <div className={css.FormWrap}>
-          <CurrencySelect value={this.state.sourceCurrency} onChange={c => this.setSourceCurrency(c)} />
-          <Control value={this.state.sourceValue} onChange={e => this.convert(e)} />
-          <CurrencySelect excludedCurrencies={[this.state.sourceCurrency]} value={this.state.targetCurrency} onChange={c => this.setCurrency(c)} />
-        </div>
-        <div className={css.FormWrap}>
-          <output className={css.FormOutput}>{this.state.resultValue.toFixed(2)} {this.state.targetCurrency}</output>
+          <div className={css.FormGroup}>
+            <Control value={this.state.sourceValue} onChange={e => this.convert(e)} />
+            <CurrencySelect value={this.state.sourceCurrency} onChange={c => this.setSourceCurrency(c)} />
+          </div>
+          <div className={css.FormGroup}>
+            <output className={css.FormOutput}>{this.state.resultValue.toFixed(2)}</output>
+            <CurrencySelect excludedCurrencies={[this.state.sourceCurrency]} value={this.state.targetCurrency} onChange={c => this.setCurrency(c)} />
+          </div>
         </div>
       </form>
     )

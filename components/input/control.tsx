@@ -1,4 +1,5 @@
 import React from "react";
+import css from './control.module.scss'
 
 export interface IControlProps {
   value: number
@@ -7,14 +8,19 @@ export interface IControlProps {
 
 export const Control: React.FC<IControlProps> = ({ value, onChange }) => {
   const handleInput = (e) => {
-    const value = Number(e.target.value)
+    console.log('handleInput')
+    if (e.target.value === '') {
+      onChange(0)
+      return
+    }
+    const value = parseInt(e.target.value, 10)
     if (!Number.isNaN(value)) {
       onChange(value)
     }
   }
   return (
-    <div>
-      <input type="tel" value={value} onInput={handleInput} />
-    </div>
+    <label className={css.FormGroup}>
+      <input className={css.FormControl} type="tel" value={value} onInput={handleInput} size={value.toString().length} />
+    </label>
   )
 }

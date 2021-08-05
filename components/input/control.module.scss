@@ -1,0 +1,23 @@
+.FormGroup {
+
+}
+
+.FormControl {
+  appearance: none;
+  background: none;
+  font-size: 100px;
+  font-weight: 300;
+  padding: 0 0 10px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  display: inline-block;
+  text-align: right;
+  /* TODO: I wonder if I can make input's width dynamic and based on value length */
+  max-width: 3em;
+  min-width: 1em;
+}
+
+.FormControl:focus {
+  border-color: teal;
+  outline: none;
+}
