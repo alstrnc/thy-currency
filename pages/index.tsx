@@ -44,7 +44,7 @@ export default function Home({ sheet }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const apiResponse = await fetch('/api/currencies')
+  const apiResponse = await fetch(`${process.env.HOST}/api/currencies`)
   const sheet: CurrencySheet = await apiResponse.json()
   return { props: { sheet } }
 }
