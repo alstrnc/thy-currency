@@ -54,7 +54,7 @@ export class Converter extends React.Component<IProps, IState> {
         <div className={css.FormWrap}>
           <label>{currencyLabel[Currency.USD]}</label>
           <Control value={this.state.sourceValue} onChange={e => this.convert(e)} />
-          <CurrencySelect value={this.state.targetCurrency} onChange={c => this.setCurrency(c)} />
+          <CurrencySelect excludedCurrencies={[Currency.USD]} value={this.state.targetCurrency} onChange={c => this.setCurrency(c)} />
         </div>
         <div className={css.FormWrap}>
           <output className={css.FormOutput}>{this.state.resultValue.toFixed(2)} {this.state.targetCurrency}</output>
