@@ -1,19 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import dotenv from 'dotenv'
-import { ICurrencyAPIResponse } from '../../components/currency.interface';
+import { CurrencyStorage } from '../../utils/currency-storage';
 
 dotenv.config()
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const result = await fetch(`https://freecurrencyapi.net/api/v1/rates?base_currency=USD`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'apikey': process.env.CURRENCY_API_KEY,
-      'Content-Type': 'application/json'
-    }
-  });
-  const sheet: ICurrencyAPIResponse = await result.json()
+const currencyStorage = new CurrencyStorage()
 
-  res.status(200).json(Object.values(sheet.data)[0])
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  let currencies = currencyStorage.getAll();
+  if (!currencies) {
+    currencies = await currencyStorage.fetch()
+    console.debug('Got currencies from outer API')
+  } else {
+    console.debug('Got currencies locally')
+  }
+  return res.status(200).json(currencies)
 }

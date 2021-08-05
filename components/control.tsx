@@ -1,8 +1,8 @@
 import React from "react";
 
 export interface IControlProps {
-  value: number;
-  onChange?: (updatedValue: number) => void;
+  value: number
+  onChange?: (updatedValue: number) => void
 }
 
 export const Control: React.FC<IControlProps> = ({ value, onChange }) => {
