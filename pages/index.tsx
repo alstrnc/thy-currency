@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { Converter } from '../components/converter'
-import { CurrencySheet } from '../components/currency.interface'
+import { Converter } from '../components/converter-form/converter'
+import { CurrencySheet } from '../interfaces/currency.interface'
 import styles from '../styles/Home.module.css'
 
 export default function Home({ sheet }) {

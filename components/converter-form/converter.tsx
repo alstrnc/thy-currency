@@ -1,9 +1,8 @@
-import { nanoid } from 'nanoid'
 import React from 'react'
-import { Control } from './control'
+import { Control } from '../input/control'
 import css from './converter.module.scss'
-import { CurrencySelect } from './currency-select/currency-select'
-import { Currency, currencyLabel, CurrencySheet } from './currency.interface'
+import { CurrencySelect } from '../currency-select/currency-select'
+import { Currency, CurrencySheet } from 'interfaces/currency.interface'
 
 interface IState {
   sourceValue: number

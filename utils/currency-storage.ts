@@ -1,4 +1,4 @@
-import { Currency, CurrencySheet, ICurrencyAPIResponse } from "../components/currency.interface";
+import { Currency, CurrencySheet, ICurrencyAPIResponse } from "../interfaces/currency.interface";
 
 export class CurrencyStorage {
   private static _dict: CurrencySheet

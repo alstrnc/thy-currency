@@ -1,5 +1,5 @@
 import React from "react";
-import { Currency, currencyLabel } from "../currency.interface";
+import { Currency, currencyLabel } from "../../interfaces/currency.interface";
 
 interface IProps {
   value: Currency;
