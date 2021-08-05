@@ -128,3 +128,11 @@
     flex-direction: column;
   }
 }
+
+.Header {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

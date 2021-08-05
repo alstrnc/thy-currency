@@ -23,8 +23,8 @@ export class Converter extends React.Component<IProps, IState> {
     this.state = {
       sourceValue: 0,
       resultValue: 0,
-      targetCurrency: Currency.RUB,
       sourceCurrency: Currency.USD,
+      targetCurrency: Currency.RUB,
     }
     this._currencyMap = new Map(Object.entries(this.props.sheet))
   }
