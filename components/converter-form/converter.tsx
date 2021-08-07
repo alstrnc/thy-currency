@@ -66,7 +66,7 @@ export class Converter extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <form>
+      <form onSubmit={e => e.preventDefault()}>
         <div className={css.FormWrap}>
           <div className={css.FormGroup}>
             <Control value={this.state.sourceValue} onChange={e => this.convert(e)} />
