@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { Github } from 'react-bootstrap-icons'
 import { Converter } from '../components/converter-form/converter'
 import { CurrencySheet } from '../interfaces/currency.interface'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
 
 export default function Home({ sheet }) {
   return (

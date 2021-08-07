@@ -3,7 +3,10 @@
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+
+  @media screen and (max-width: 767px) {
+    flex-flow: column;
+  }
 }
 
 .FormControl {
@@ -22,12 +25,19 @@
   display: inline-flex;
   align-items: baseline;
   font-size: 60px;
+
+  @media screen and (max-width: 767px) {
+    font-size: 30px;
+  }
 }
 
 .FormGroup + .FormGroup::before {
   content: '=';
-  vertical-align: middle;
   align-self: center;
-  font-size: 40px;
+  font-size: 80%;
   margin: 0 25px;
+
+  @media screen and (max-width: 767px) {
+    margin: 0 10px;
+  }
 }
