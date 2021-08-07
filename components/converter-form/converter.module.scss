@@ -1,6 +1,6 @@
 .FormWrap {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: center;
   align-items: center;
   gap: 30px;
@@ -14,18 +14,20 @@
 
 .FormOutput {
   font-weight: 300;
-  font-size: 100px;
+  font-size: inherit;
+  padding-bottom: 5px;
 }
 
 .FormGroup {
   display: inline-flex;
   align-items: baseline;
+  font-size: 60px;
 }
 
 .FormGroup + .FormGroup::before {
-  content: '=>';
+  content: '=';
   vertical-align: middle;
   align-self: center;
-  font-size: 50px;
+  font-size: 40px;
   margin: 0 25px;
 }
