@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/node": "14",
+    "date-fns": "^2.23.0",
     "dotenv": "^9.0.2",
     "nanoid": "^3.1.22",
     "next": "10.2.0",
