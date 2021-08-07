@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import css from './control.module.scss'
 
 export interface IControlProps {
@@ -7,8 +7,10 @@ export interface IControlProps {
 }
 
 export const Control: React.FC<IControlProps> = ({ value, onChange }) => {
-  const handleInput = (e) => {
-    console.log('handleInput')
+  const [size, setSize] = useState(value.toString().length)
+
+  const emitChangeEvent = (e) => {
+    setSize(e.target.value.length)
     if (e.target.value === '') {
       onChange(0)
       return
@@ -18,9 +20,10 @@ export const Control: React.FC<IControlProps> = ({ value, onChange }) => {
       onChange(value)
     }
   }
+
   return (
-    <label className={css.FormGroup}>
-      <input className={css.FormControl} type="tel" value={value} onInput={handleInput} size={value.toString().length} />
+    <label className={css.FormGroup} style={{ width: `${size}ch` }}>
+      <input className={css.FormControl} type="tel" value={value} onInput={emitChangeEvent} />
     </label>
   )
 }
