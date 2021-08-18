@@ -27,18 +27,6 @@ export default function Home({ sheet }) {
           <Converter sheet={sheet} />
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://mamoruuu.github.io"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.footerLink}
-        >
-          <img src="https://github.com/mamoruuu.png?size=48" width={24} height={24} className={styles.footerAvatar} />
-          Made by Alexander Bolotskov
-        </a>
-      </footer>
     </main>
   )
 }
