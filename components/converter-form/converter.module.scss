@@ -33,6 +33,13 @@
 
 .Arrow {
   margin: 20px;
+
+  @media screen and (max-width: 767px) {
+    transform: rotateZ(90deg);
+    margin: 15px;
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .Preloader {
