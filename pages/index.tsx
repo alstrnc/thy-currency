@@ -13,13 +13,14 @@ export default function Home() {
       </Head>
 
       <header className={styles.Header}>
+        <h1 className={styles.title}>Currency Converter</h1>
         <a href="https://github.com/AlexAtHome/thy-currency" target="_blank" rel="nofollow noopener noreferrer">
           <Github size={32} />
         </a>
       </header>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Currency Converter</h1>
+
 
         <div className={styles.Converter}>
           <Converter />
