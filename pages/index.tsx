@@ -15,7 +15,7 @@ export default function Home({ sheet }) {
       </Head>
 
       <header className={styles.Header}>
-        <a href="https://github.com/alstrnc/thy-currency" target="_blank" rel="nofollow noopener noreferrer">
+        <a href="https://github.com/AlexAtHome/thy-currency" target="_blank" rel="nofollow noopener noreferrer">
           <Github size={32} />
         </a>
       </header>
