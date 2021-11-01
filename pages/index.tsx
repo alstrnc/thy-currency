@@ -20,8 +20,6 @@ export default function Home() {
       </header>
 
       <main className={styles.main}>
-
-
         <div className={styles.Converter}>
           <Converter />
         </div>

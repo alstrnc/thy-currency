@@ -4,9 +4,10 @@ import css from './control.module.scss'
 export interface IControlProps {
   value: number
   onChange?: (updatedValue: number) => void
+  onBlur?: () => void
 }
 
-export const Control: React.FC<IControlProps> = ({ value = 0, onChange }) => {
+export const Control: React.FC<IControlProps> = ({ value = 0, onChange, onBlur }) => {
   const [size, setSize] = useState(value?.toString().length ?? 3)
   const [stringValue, setStringValue] = useState(value.toString())
 
@@ -45,7 +46,7 @@ export const Control: React.FC<IControlProps> = ({ value = 0, onChange }) => {
 
   return (
     <label className={css.FormGroup} style={{ width: `${size}ch` }}>
-      <input className={css.FormControl} type="tel" value={stringValue} onInput={emitChangeEvent} />
+      <input className={css.FormControl} type="tel" value={stringValue} onBlur={() => onBlur?.()} onInput={emitChangeEvent} />
     </label>
   )
 }
