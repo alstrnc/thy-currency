@@ -1,11 +1,9 @@
-import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { Github } from 'react-bootstrap-icons'
 import { Converter } from '../components/converter-form/converter'
-import { CurrencySheet } from '../interfaces/currency.interface'
 import styles from '../styles/Home.module.scss'
 
-export default function Home({ sheet }) {
+export default function Home() {
   return (
     <main className={styles.container}>
       <Head>
@@ -24,15 +22,9 @@ export default function Home({ sheet }) {
         <h1 className={styles.title}>Currency Converter</h1>
 
         <div className={styles.Converter}>
-          <Converter sheet={sheet} />
+          <Converter />
         </div>
       </main>
     </main>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const apiResponse = await fetch(`${process.env.HOST}/api/currencies`)
-  const sheet: CurrencySheet = await apiResponse.json()
-  return { props: { sheet } }
 }
