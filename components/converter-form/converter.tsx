@@ -3,7 +3,7 @@ import { Control } from '../input/control'
 import css from './converter.module.scss'
 import { CurrencySelect } from '../currency-select/currency-select'
 import { Currency, CurrencySheet } from 'interfaces/currency.interface'
-import { ArrowRight } from 'react-bootstrap-icons'
+import { ArrowRight, CurrencyDollar } from 'react-bootstrap-icons'
 
 interface IState {
   sourceValue: number
@@ -32,7 +32,9 @@ export class Converter extends React.Component<{}, IState> {
     const apiResponse = await fetch(`/api/currencies`)
     this._sheet = await apiResponse.json()
     this._currencyMap = new Map(Object.entries(this._sheet))
-    this.stopLoading()
+    setTimeout(() => {
+      this.stopLoading()
+    }, 250)
   }
 
   convert(updatedValue: number): void {
@@ -93,8 +95,10 @@ export class Converter extends React.Component<{}, IState> {
   }
 
   private _renderPreloader() {
-    return (<div>
-      Loading now
+    return (<div className={css.Preloader}>
+      <span className={css.PreloaderWrap}>
+        <CurrencyDollar size={24} />
+      </span> Loading the currency sheet...
     </div>)
   }
 
