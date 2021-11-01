@@ -18,7 +18,7 @@ export const Control: React.FC<IControlProps> = ({ value = 0, onChange }) => {
     }
 
     if (inputValue === '') {
-      onChange(0)
+      onChange?.(0)
       setStringValue('0')
       return
     }
@@ -37,7 +37,7 @@ export const Control: React.FC<IControlProps> = ({ value = 0, onChange }) => {
 
     const floatValue = parseFloat(inputValue.replace(',', '.'))
     if (!Number.isNaN(floatValue)) {
-      onChange(floatValue)
+      onChange?.(floatValue)
       setStringValue(inputValue.replace(',', '.'))
     }
     setSize(floatValue.toString().length)

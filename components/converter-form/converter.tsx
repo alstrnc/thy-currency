@@ -1,9 +1,8 @@
 import React from 'react'
-import { Control } from '../input/control'
 import css from './converter.module.scss'
-import { CurrencySelect } from '../currency-select/currency-select'
 import { Currency, CurrencySheet } from 'interfaces/currency.interface'
 import { ArrowRight, CurrencyDollar } from 'react-bootstrap-icons'
+import { CurrencyInput } from 'components/currency-input/currency-input'
 
 interface IState {
   sourceValue: number
@@ -80,15 +79,19 @@ export class Converter extends React.Component<{}, IState> {
     return (
       <form onSubmit={e => e.preventDefault()}>
         <div className={css.FormWrap}>
-          <div className={css.FormGroup}>
-            <Control value={this.state.sourceValue} onChange={e => this.convert(e)} />
-            <CurrencySelect value={this.state.sourceCurrency} onChange={c => this.setSourceCurrency(c)} />
-          </div>
+          <CurrencyInput
+            value={this.state.sourceValue}
+            currency={this.state.sourceCurrency}
+            onValueChange={(value) => this.convert(value)}
+            onCurrencyChange={(_prev, upd) => this.setSourceCurrency(upd)}
+          />
           <ArrowRight size={48} className={css.Arrow} />
-          <div className={css.FormGroup}>
-            <output className={css.FormOutput}>{this.state.resultValue.toFixed(2)}</output>
-            <CurrencySelect excludedCurrencies={[this.state.sourceCurrency]} value={this.state.targetCurrency} onChange={c => this.setCurrency(c)} />
-          </div>
+          <CurrencyInput
+            value={this.state.resultValue}
+            currency={this.state.targetCurrency}
+            excludedCurrencies={[this.state.sourceCurrency]}
+            onCurrencyChange={(_prev, upd) => this.setCurrency(upd)}
+          />
         </div>
       </form>
     )

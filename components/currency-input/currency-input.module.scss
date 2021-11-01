@@ -1,0 +1,9 @@
+.FormGroup {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 60px;
+
+  @media screen and (max-width: 767px) {
+    font-size: 30px;
+  }
+}
