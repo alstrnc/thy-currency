@@ -3,6 +3,7 @@ import { Control } from '../input/control'
 import css from './converter.module.scss'
 import { CurrencySelect } from '../currency-select/currency-select'
 import { Currency, CurrencySheet } from 'interfaces/currency.interface'
+import { ArrowRight } from 'react-bootstrap-icons'
 
 interface IState {
   sourceValue: number
@@ -81,6 +82,7 @@ export class Converter extends React.Component<{}, IState> {
             <Control value={this.state.sourceValue} onChange={e => this.convert(e)} />
             <CurrencySelect value={this.state.sourceCurrency} onChange={c => this.setSourceCurrency(c)} />
           </div>
+          <ArrowRight size={48} className={css.Arrow} />
           <div className={css.FormGroup}>
             <output className={css.FormOutput}>{this.state.resultValue.toFixed(2)}</output>
             <CurrencySelect excludedCurrencies={[this.state.sourceCurrency]} value={this.state.targetCurrency} onChange={c => this.setCurrency(c)} />

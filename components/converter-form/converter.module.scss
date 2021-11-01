@@ -16,7 +16,7 @@
 }
 
 .FormOutput {
-  font-weight: 300;
+  font-weight: 500;
   font-size: inherit;
   padding-bottom: 5px;
 }
@@ -31,13 +31,6 @@
   }
 }
 
-.FormGroup + .FormGroup::before {
-  content: '=';
-  align-self: center;
-  font-size: 80%;
-  margin: 0 25px;
-
-  @media screen and (max-width: 767px) {
-    margin: 0 10px;
-  }
+.Arrow {
+  margin: 20px;
 }
