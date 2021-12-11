@@ -13,7 +13,8 @@ export class CurrencyStorage {
 
   async fetch(): Promise<CurrencySheet> {
     if (process.env.DEV_MODE === '1') {
-      return this._getMockSheet();
+      CurrencyStorage._dict = this._getMockSheet();
+      return CurrencyStorage._dict;
     }
     const sheet = await this._getSheetFromApi();
     const [currencies] = Object.values(sheet.data)
