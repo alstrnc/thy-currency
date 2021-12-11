@@ -10,12 +10,14 @@ interface IState {
   resultValue: number
   targetCurrency: Currency
   sourceCurrency: Currency
-  isLoading: boolean
 }
 
-export class Converter extends React.Component<{}, IState> {
+interface IProps {
+  sheet: CurrencySheet;
+}
+
+export class Converter extends React.Component<IProps, IState> {
   private _currencyMap: Map<string, number>;
-  private _sheet: CurrencySheet;
 
   constructor(props) {
     super(props)
@@ -24,17 +26,8 @@ export class Converter extends React.Component<{}, IState> {
       resultValue: 0,
       sourceCurrency: Currency.USD,
       targetCurrency: Currency.RUB,
-      isLoading: true
     }
-  }
-
-  async componentDidMount() {
-    const apiResponse = await fetch(`/api/currencies`)
-    this._sheet = await apiResponse.json()
-    this._currencyMap = new Map(Object.entries(this._sheet))
-    setTimeout(() => {
-      this.stopLoading()
-    }, 250)
+    this._currencyMap = new Map(Object.entries(this.props.sheet))
   }
 
   convert(updatedValue: number): void {
@@ -67,16 +60,12 @@ export class Converter extends React.Component<{}, IState> {
     })
   }
 
-  stopLoading(): void {
-    this.setState({ isLoading: false });
-  }
-
   private _convert(value: number, from: Currency, to: Currency): number {
     const usdValue = value / this._currencyMap.get(from);
     return usdValue * this._currencyMap.get(to);
   }
 
-  private _renderForm() {
+  render() {
     return (
       <form onSubmit={e => e.preventDefault()}>
         <div className={css.FormWrap}>
@@ -92,17 +81,5 @@ export class Converter extends React.Component<{}, IState> {
         </div>
       </form>
     )
-  }
-
-  private _renderPreloader() {
-    return (<div className={css.Preloader}>
-      <span className={css.PreloaderWrap}>
-        <CurrencyDollar size={24} />
-      </span> Loading the currency sheet...
-    </div>)
-  }
-
-  render() {
-    return this.state.isLoading ? this._renderPreloader() : this._renderForm()
   }
 }
