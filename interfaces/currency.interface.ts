@@ -3,7 +3,10 @@ export enum Currency {
   RUB = 'RUB',
   EUR = 'EUR',
   CAD = 'CAD',
-  JPY = 'JPY'
+  JPY = 'JPY',
+  AMD = 'AMD',
+  GEL = 'GEL',
+  BYN = 'BYN'
 }
 
 export const currencyLabel = {
@@ -11,7 +14,10 @@ export const currencyLabel = {
   [Currency.USD]: '🇺🇸 USD',
   [Currency.EUR]: '🇪🇺 EUR',
   [Currency.CAD]: '🇨🇦 CAD',
-  [Currency.JPY]: '🇯🇵 JPY'
+  [Currency.JPY]: '🇯🇵 JPY',
+  [Currency.AMD]: '🇦🇲 AMD',
+  [Currency.GEL]: '🇬🇪 GEL',
+  [Currency.BYN]: '🇧🇾 BYN',
 } as const;
 
 export interface ICurrencyAPIResponse {

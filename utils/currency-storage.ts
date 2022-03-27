@@ -46,6 +46,9 @@ export class CurrencyStorage {
       JPY: 110.27,
       RUB: 73.44,
       USD: 1,
+      GEL: 3.210,
+      AMD: 490.10864,
+      BYN: 3.26698
     }
   }
 }
