@@ -3,14 +3,13 @@ import { Control } from '../input/control'
 import css from './converter.module.scss'
 import { CurrencySelect } from '../currency-select/currency-select'
 import { Currency, CurrencySheet } from 'interfaces/currency.interface'
-import { ArrowRight } from 'react-bootstrap-icons'
+import { ArrowLeftRight } from 'react-bootstrap-icons'
 
 interface IState {
-  sourceValue: number
-  resultValue: number
-  targetCurrency: Currency
-  sourceCurrency: Currency
+  currencyControls: IFormControl[]
 }
+
+type IFormControl = [number, Currency]
 
 interface IProps {
   sheet: CurrencySheet;
@@ -19,48 +18,42 @@ interface IProps {
 export class Converter extends React.Component<IProps, IState> {
   private _currencyMap: Map<string, number>;
 
-  constructor(props) {
+  constructor(props: IProps) {
     super(props)
     this.state = {
-      sourceValue: 0,
-      resultValue: 0,
-      sourceCurrency: Currency.USD,
-      targetCurrency: Currency.RUB,
+      currencyControls: [
+        [0, Currency.USD],
+        [0, Currency.RUB],
+      ],
     }
     this._currencyMap = new Map(Object.entries(this.props.sheet))
   }
 
-  convert(updatedValue: number): void {
+  convert(updatedValue: number, index: number): void {
+    const controls = [...this.state.currencyControls]
+    controls[index][0] = updatedValue
     this.setState({
-      sourceValue: updatedValue,
-      resultValue: this._convert(updatedValue, this.state.sourceCurrency, this.state.targetCurrency)
+      currencyControls: this.convertAllControls(index, controls)
     })
   }
 
-  setCurrency(updatedCurrency: Currency): void {
-    const sourceValue = this.state.sourceValue
+  setCurrency(updatedCurrency: Currency, index: number): void {
+    const controls = [...this.state.currencyControls]
+    controls[index][1] = updatedCurrency
     this.setState({
-      sourceValue,
-      targetCurrency: updatedCurrency,
-      resultValue: this._convert(sourceValue, this.state.sourceCurrency, updatedCurrency),
+      currencyControls: this.convertAllControls(index, controls)
     })
   }
 
-  setSourceCurrency(updatedCurrency: Currency): void {
-    const sourceValue = this.state.sourceValue
-    let targetCurrency = this.state.targetCurrency
-    if (targetCurrency === updatedCurrency) {
-      targetCurrency = this.state.sourceCurrency
-    }
-    this.setState({
-      sourceValue,
-      sourceCurrency: updatedCurrency,
-      resultValue: this._convert(sourceValue, updatedCurrency, targetCurrency),
-      targetCurrency
-    })
+  private convertAllControls(changedIndex: number, controls: IFormControl[]): IFormControl[] {
+    const [refValue, refCurrency] = controls[changedIndex]
+
+    return controls.map(([, currency]) =>
+      [this._convertValue(refValue, refCurrency, currency), currency]
+    )
   }
 
-  private _convert(value: number, from: Currency, to: Currency): number {
+  private _convertValue(value: number, from: Currency, to: Currency): number {
     const usdValue = value / this._currencyMap.get(from);
     return usdValue * this._currencyMap.get(to);
   }
@@ -69,15 +62,15 @@ export class Converter extends React.Component<IProps, IState> {
     return (
       <form onSubmit={e => e.preventDefault()}>
         <div className={css.FormWrap}>
-          <div className={css.FormGroup}>
-            <Control value={this.state.sourceValue} onChange={e => this.convert(e)} />
-            <CurrencySelect value={this.state.sourceCurrency} onChange={c => this.setSourceCurrency(c)} />
-          </div>
-          <ArrowRight size={48} className={css.Arrow} />
-          <div className={css.FormGroup}>
-            <output className={css.FormOutput}>{this.state.resultValue.toFixed(2)}</output>
-            <CurrencySelect excludedCurrencies={[this.state.sourceCurrency]} value={this.state.targetCurrency} onChange={c => this.setCurrency(c)} />
-          </div>
+          {this.state.currencyControls.map(([value, currency], index) =>
+            <div key={index}>
+              <div className={css.FormGroup}>
+                <Control value={value} onChange={e => this.convert(e, index)} />
+                <CurrencySelect value={currency} onChange={c => this.setCurrency(c, index)} />
+              </div>
+              {this.state.currencyControls.length !== index + 1 && <ArrowLeftRight size={48} className={css.Arrow} />}
+            </div>
+          )}
         </div>
       </form>
     )
