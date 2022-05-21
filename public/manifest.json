@@ -1,0 +1,16 @@
+{
+  "name": "Thy Currency",
+  "short_name": "thy-currency",
+  "start_url": "index.html",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/vnd.microsoft.icon"
+    }
+  ],
+  "lang": "en",
+  "background_color": "#222222",
+  "display": "standalone",
+  "theme_color": "#222222"
+}
