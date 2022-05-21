@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import css from './control.module.scss'
 
 export interface IControlProps {
@@ -6,20 +6,56 @@ export interface IControlProps {
   onChange?: (updatedValue: number) => void
 }
 
-export const Control: React.FC<IControlProps> = ({ value = 0, onChange }) => {
-  const [size, setSize] = useState(value?.toString().length ?? 3)
-  const [stringValue, setStringValue] = useState(value.toString())
+interface IControlState {
+  value: number
+  size: number
+  stringValue: string
+}
 
-  const emitChangeEvent = (event) => {
-    let { value: inputValue } = event.target
+export class Control extends React.Component<IControlProps, IControlState> {
+  constructor(props: IControlProps) {
+    super(props)
+    const stringValue = this.getStringValue(props.value)
+    this.state = {
+      value: props.value ?? 0,
+      size: stringValue.length ?? 3,
+      stringValue
+    }
+  }
+
+  componentWillReceiveProps(nextProps: Readonly<IControlProps>): void {
+    if (nextProps.value !== this.state.value) {
+      const updatedValue = nextProps.value ?? 0
+      const updatedStringValue: string = this.getStringValue(updatedValue)
+      this.setState({
+        value: updatedValue,
+        size: updatedStringValue.length ?? 3,
+        stringValue: updatedStringValue
+      })
+    }
+  }
+
+  private getStringValue(value: number): string {
+    if (Number.isNaN(value)) {
+      return '';
+    }
+    return value.toFixed(value === Math.trunc(value) ? 0 : 2)
+  }
+
+  private emitChangeEvent(event: React.FormEvent<HTMLInputElement>): void {
+    let inputValue = (event.target as HTMLInputElement).value
 
     if (inputValue.startsWith('0')) {
       inputValue = inputValue.slice(1);
     }
 
     if (inputValue === '') {
-      onChange(0)
-      setStringValue('0')
+      this.props.onChange(0)
+      this.setState({
+        value: 0,
+        stringValue: '0',
+        size: 344
+      })
       return
     }
 
@@ -31,21 +67,28 @@ export const Control: React.FC<IControlProps> = ({ value = 0, onChange }) => {
     }
 
     if (isEndingWithFloatingPoint) {
-      setStringValue(inputValue.replace(',', '.'))
+      this.setState({
+        stringValue: inputValue.replace(',', '.')
+      })
       return
     }
 
+    const updatedState: Partial<IControlState> = {}
     const floatValue = parseFloat(inputValue.replace(',', '.'))
     if (!Number.isNaN(floatValue)) {
-      onChange(floatValue)
-      setStringValue(inputValue.replace(',', '.'))
+      this.props.onChange(floatValue)
+      updatedState.value = floatValue;
+      updatedState.stringValue = this.getStringValue(floatValue)
     }
-    setSize(floatValue.toString().length)
+    updatedState.size = updatedState.stringValue.length
+    this.setState(updatedState as IControlState)
   }
 
-  return (
-    <label className={css.FormGroup} style={{ width: `${size}ch` }}>
-      <input className={css.FormControl} type="tel" value={stringValue} onInput={emitChangeEvent} />
-    </label>
-  )
+  render() {
+    return (
+      <label className={css.FormGroup} style={{ width: `${this.state.size}ch` }}>
+        <input className={css.FormControl} type="tel" value={this.state.stringValue} onInput={this.emitChangeEvent.bind(this)} />
+      </label>
+    )
+  }
 }
