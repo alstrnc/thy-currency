@@ -63,13 +63,14 @@ export class Converter extends React.Component<IProps, IState> {
       <form onSubmit={e => e.preventDefault()}>
         <div className={css.FormWrap}>
           {this.state.currencyControls.map(([value, currency], index) =>
-            <div key={index}>
-              <div className={css.FormGroup}>
+            [
+              <div key={index} className={css.FormGroup}>
                 <Control value={value} onChange={e => this.convert(e, index)} />
                 <CurrencySelect value={currency} onChange={c => this.setCurrency(c, index)} />
               </div>
-              {this.state.currencyControls.length !== index + 1 && <ArrowLeftRight size={48} className={css.Arrow} />}
-            </div>
+              ,
+              this.state.currencyControls.length !== index + 1 && <ArrowLeftRight size={48} className={css.Arrow} />
+            ]
           )}
         </div>
       </form>
