@@ -22,12 +22,7 @@ export class Converter extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props)
-    this.state = {
-      currencyControls: [
-        [0, Currency.USD],
-        [0, Currency.RUB],
-      ],
-    }
+    this.state = this.getDefaultState()
     this._currencyMap = new Map(Object.entries(this.props.sheet) as [Currency, number][])
   }
 
@@ -53,6 +48,19 @@ export class Converter extends React.Component<IProps, IState> {
     this.setState({
       currencyControls: this.convertAllControls(0, controls)
     })
+  }
+
+  reset(): void {
+    this.setState(this.getDefaultState())
+  }
+
+  private getDefaultState(): IState {
+    return {
+      currencyControls: [
+        [0, Currency.USD],
+        [0, Currency.RUB],
+      ],
+    }
   }
 
   private getUnusedCurrency(): Currency {
@@ -89,7 +97,7 @@ export class Converter extends React.Component<IProps, IState> {
             ]
           )}
           {this.state.currencyControls.length < this._currencyMap.size && <AddButton onClick={this.addCurrency.bind(this)} />}
-          <ResetButton />
+          <ResetButton onClick={this.reset.bind(this)} />
         </div>
       </form>
     )
