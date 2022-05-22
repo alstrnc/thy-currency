@@ -4,6 +4,7 @@ import css from './converter.module.scss'
 import { CurrencySelect } from '../currency-select/currency-select'
 import { Currency, CurrencySheet } from 'interfaces/currency.interface'
 import { ArrowLeftRight } from 'react-bootstrap-icons'
+import { AddButton } from '../add-button/add-button'
 
 interface IState {
   currencyControls: IFormControl[]
@@ -72,6 +73,7 @@ export class Converter extends React.Component<IProps, IState> {
               this.state.currencyControls.length !== index + 1 && <ArrowLeftRight key={`icon-${index}`} size={48} className={css.Arrow} />
             ]
           )}
+          <AddButton />
         </div>
       </form>
     )
