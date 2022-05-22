@@ -5,6 +5,7 @@ import { CurrencySelect } from '../currency-select/currency-select'
 import { Currency, CurrencySheet } from 'interfaces/currency.interface'
 import { ArrowLeftRight } from 'react-bootstrap-icons'
 import { AddButton } from '../add-button/add-button'
+import { ResetButton } from '../reset-button/reset-button'
 
 interface IState {
   currencyControls: IFormControl[]
@@ -88,6 +89,7 @@ export class Converter extends React.Component<IProps, IState> {
             ]
           )}
           {this.state.currencyControls.length < this._currencyMap.size && <AddButton onClick={this.addCurrency.bind(this)} />}
+          <ResetButton />
         </div>
       </form>
     )
