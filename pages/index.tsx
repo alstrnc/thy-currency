@@ -11,6 +11,7 @@ import styles from '../styles/Home.module.scss'
 interface IPageProps {
   sheet: CurrencySheet
   lastUpdated: Date
+  isProd: boolean
 }
 
 interface IPageState {
@@ -26,12 +27,14 @@ export default class Home extends React.Component<IPageProps, IPageState> {
   }
 
   componentDidMount() {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(err => {
-        console.error('Failed to register the service worker!', err)
-      })
-    } else {
-      console.warn('Service workers are not supported by this browser!')
+    if (this.props.isProd) {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(err => {
+          console.error('Failed to register the service worker!', err)
+        })
+      } else {
+        console.warn('Service workers are not supported by this browser!')
+      }
     }
   }
 
@@ -73,6 +76,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       sheet: dto.currencies,
       lastUpdated: dto.lastUpdated,
+      isProd: process.env.NODE_ENV === 'production',
     }
   }
 }
