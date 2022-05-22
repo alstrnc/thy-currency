@@ -54,7 +54,7 @@ export class Control extends React.Component<IControlProps, IControlState> {
       this.setState({
         value: 0,
         stringValue: '0',
-        size: 344
+        size: 1
       })
       return
     }
