@@ -19,5 +19,8 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
     lastUpdated = new Date()
     console.debug('Got currencies from outer API')
   }
-  return res.status(200).json(currencies)
+  return res.status(200).json({
+    currencies,
+    lastUpdated: lastUpdated.toISOString(),
+  })
 }

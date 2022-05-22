@@ -2,17 +2,27 @@ import React from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { Github } from 'react-bootstrap-icons'
+import format from 'date-fns/format'
+
 import { Converter } from '../components/converter-form/converter'
-import { CurrencySheet } from '../interfaces/currency.interface'
+import { CurrencySheet, SheetDTO } from '../interfaces/currency.interface'
 import styles from '../styles/Home.module.scss'
 
 interface IPageProps {
-  sheet: any
+  sheet: CurrencySheet
+  lastUpdated: Date
 }
 
-export default class Home extends React.Component<IPageProps> {
+interface IPageState {
+  lastUpdated: string
+}
+
+export default class Home extends React.Component<IPageProps, IPageState> {
   constructor(props: IPageProps) {
     super(props)
+    this.state = {
+      lastUpdated: format(new Date(props.lastUpdated), 'PPPppp')
+    }
   }
 
   componentDidMount() {
@@ -47,6 +57,10 @@ export default class Home extends React.Component<IPageProps> {
             <Converter sheet={this.props.sheet} />
           </div>
         </main>
+
+        <footer className={styles.Footer}>
+          <p>Last updated: {this.state.lastUpdated}</p>
+        </footer>
       </main>
     )
   }
@@ -54,6 +68,11 @@ export default class Home extends React.Component<IPageProps> {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const apiResponse = await fetch(`${process.env.HOST}/api/currencies`)
-  const sheet: CurrencySheet = await apiResponse.json()
-  return { props: { sheet } }
+  const dto: SheetDTO = await apiResponse.json()
+  return {
+    props: {
+      sheet: dto.currencies,
+      lastUpdated: dto.lastUpdated,
+    }
+  }
 }

@@ -32,3 +32,8 @@ export interface ICurrencyAPIResponse {
 export type CurrencySheet = {
   [isoCode in Currency]: number
 }
+
+export interface SheetDTO {
+  currencies: CurrencySheet;
+  lastUpdated: string;
+}
