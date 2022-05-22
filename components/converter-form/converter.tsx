@@ -17,7 +17,7 @@ interface IProps {
 }
 
 export class Converter extends React.Component<IProps, IState> {
-  private _currencyMap: Map<string, number>;
+  private _currencyMap: Map<Currency, number>;
 
   constructor(props: IProps) {
     super(props)
@@ -27,7 +27,7 @@ export class Converter extends React.Component<IProps, IState> {
         [0, Currency.RUB],
       ],
     }
-    this._currencyMap = new Map(Object.entries(this.props.sheet))
+    this._currencyMap = new Map(Object.entries(this.props.sheet) as [Currency, number][])
   }
 
   convert(updatedValue: number, index: number): void {
@@ -44,6 +44,20 @@ export class Converter extends React.Component<IProps, IState> {
     this.setState({
       currencyControls: this.convertAllControls(index, controls)
     })
+  }
+
+  addCurrency(): void {
+    const controls = [...this.state.currencyControls]
+    controls.push([0, this.getUnusedCurrency()])
+    this.setState({
+      currencyControls: this.convertAllControls(0, controls)
+    })
+  }
+
+  private getUnusedCurrency(): Currency {
+    return Array.from(this._currencyMap.keys()).filter(currency =>
+      !this.state.currencyControls.some(control => control[1] === currency)
+    )[0]
   }
 
   private convertAllControls(changedIndex: number, controls: IFormControl[]): IFormControl[] {
@@ -73,7 +87,7 @@ export class Converter extends React.Component<IProps, IState> {
               this.state.currencyControls.length !== index + 1 && <ArrowLeftRight key={`icon-${index}`} size={48} className={css.Arrow} />
             ]
           )}
-          <AddButton />
+          {this.state.currencyControls.length < this._currencyMap.size && <AddButton onClick={this.addCurrency.bind(this)} />}
         </div>
       </form>
     )

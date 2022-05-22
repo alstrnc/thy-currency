@@ -29,9 +29,7 @@ export interface ICurrencyAPIResponse {
   }
 }
 
-export type CurrencySheet = {
-  [isoCode in Currency]: number
-}
+export type CurrencySheet = Record<Currency, number>;
 
 export interface SheetDTO {
   currencies: CurrencySheet;
