@@ -69,7 +69,7 @@ export class Converter extends React.Component<IProps, IState> {
                 <CurrencySelect value={currency} onChange={c => this.setCurrency(c, index)} />
               </div>
               ,
-              this.state.currencyControls.length !== index + 1 && <ArrowLeftRight size={48} className={css.Arrow} />
+              this.state.currencyControls.length !== index + 1 && <ArrowLeftRight key={`icon-${index}`} size={48} className={css.Arrow} />
             ]
           )}
         </div>
