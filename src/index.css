@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+	.inherit-bg {
+		@apply bg-zinc-100 dark:bg-zinc-800 text-black dark:text-white;
+	}
+}
