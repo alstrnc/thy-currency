@@ -9,7 +9,7 @@ import { useState } from "react"
  * @typedef {import("../../models/currency").CurrencySheet} CurrencySheet
  * @typedef {import("../../models/currency").Currency} Currency
  *
- * @typedef {[number, Currency]} Control
+ * @typedef {Partial<Record<Currency, number>>} Control
  *
  * @typedef Props
  * @prop {CurrencySheet} sheet
@@ -17,84 +17,42 @@ import { useState } from "react"
 
 /** @param {Props} props */
 export const Converter = (props) => {
-	/** @type {Control[]} */
-	const defaultCurrencies = [
-		[0, 'USD'],
-		[0, 'RUB'],
-	]
-	const currencyMap = /** @type {Map<Currency, number>} */ (new Map(Object.entries(props.sheet)))
-	/** @type {[Control[], Function]} */
-	const [controls, setControls] = useState(defaultCurrencies)
-
-	/**
-	 * @param {number} updatedValue
-	 * @param {number} index
-	 */
-	const convert = (updatedValue, index) => {
-		console.log('convert', { updatedValue, index })
-		const updatedControls = [...controls]
-		updatedControls[index][0] = updatedValue
-		setControls(convertAllControls(index, updatedControls))
-	}
-
-	/**
-	 * @param {number} changedIndex
-	 * @param {Control[]} updatedControls
-	 */
-	const convertAllControls = (changedIndex, updatedControls) => {
-		const [refValue, refCurrency] = updatedControls[changedIndex]
-
-		return updatedControls.map(([, currency]) =>
-			[_convertValue(refValue, refCurrency, currency), currency]
-		)
-	}
-
-	/**
-	 * @param {Currency} updatedCurrency
-	 * @param {number} index
-	 */
-	const setCurrency = (updatedCurrency, index) => {
-		const updatedControls = [...controls]
-		updatedControls[index][1] = updatedCurrency
-		setControls(convertAllControls(index, updatedControls))
-	}
-
-	const addCurrency = () => {
-		const updatedControls = [...controls]
-		updatedControls.push([0, getUnusedCurrency()])
-		setControls(convertAllControls(0, updatedControls))
-	}
-
-	/** @returns {Currency} The list of unused currencies */
-	const getUnusedCurrency = () => {
-		return Array.from(currencyMap.keys()).filter(currency => !controls.some(control => control[1] === currency))[0]
-	}
+	const [usd, setUsd] = useState(0);
+	const [rub, setRub] = useState(0);
 
 	const reset = () => {
-		setControls(defaultCurrencies)
+		setUsd(0)
+		setRub(0)
 	}
 
 	/**
-	 * @param {number} value
+	 * @param {number} amount
 	 * @param {Currency} from
 	 * @param {Currency} to
-	 * @returns {number}
+	 * @returns {void}
 	 */
-	const _convertValue = (value, from, to) => {
-		const usdValue = value / currencyMap.get(from)
-		return usdValue * currencyMap.get(to)
+	function convert(amount, from, to) {
+		if (from === 'USD') {
+			setUsd(amount)
+			setRub(amount * props.sheet[to])
+		} else if (from === 'RUB') {
+			setRub(amount)
+			setUsd(amount * props.sheet[to])
+		}
 	}
 
 	return (
 		<form className="flex flex-col md:flex-row flex-wrap justify-center items-center" onSubmit={e => e.preventDefault()}>
-			{controls.map(([value, currency], index) => [
-				<div key={index} className="inline-flex w-min items-baseline text-3xl md:text-6xl">
-					<Control value={value} onChange={e => convert(e, index)} />
-					<CurrencySelect value={currency} onChange={c => setCurrency(c, index)} />
-				</div>,
-				controls.length !== index + 1 && <ArrowLeftRight key={`icon-${index}`} size={48} className="md:m-5 m-4 size-8 rotate-90 md:rotate-0" />
-			])}
-			{controls.length < currencyMap.size && <AddButton onClick={() => addCurrency()} />}
+			<div className="inline-flex w-min items-baseline text-3xl md:text-6xl">
+				<Control value={usd} onChange={update => convert(update, 'USD', 'RUB')} />
+				<CurrencySelect value="USD" />
+			</div>
+			<ArrowLeftRight size={48} className="md:m-5 m-4 size-8 rotate-90 md:rotate-0" />
+			<div className="inline-flex w-min items-baseline text-3xl md:text-6xl">
+				<Control value={rub} onChange={update => convert(update, 'RUB', 'USD')} />
+				<CurrencySelect value="RUB" />
+			</div>
+			<AddButton />
 			<ResetButton onClick={() => reset()} />
 		</form>
 	)

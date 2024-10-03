@@ -5,7 +5,7 @@ import { currencies, currency, currencyLabel } from "../../models/currency";
  *
  * @typedef Props
  * @prop {currency[number]} value
- * @prop {(updatedCurrency: Currency) => void} onChange
+ * @prop {(updatedCurrency: Currency) => void} [onChange]
  * @prop {Currency[]} [excludedCurrencies]
  */
 

@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 /**
  * @typedef ControlProps
  * @prop {number} value
@@ -26,8 +24,6 @@ const stringify = (value) => {
  * @param {ControlProps} props
  */
 export const Control = props => {
-	const [stringValue, setStringValue] = useState(stringify(props.value))
-
 	/** @type {React.FormEventHandler<HTMLInputElement>} */
 	const emitChangeEvent = (event) => {
 		let inputValue = /** @type {HTMLInputElement} */ (event.target).value
@@ -38,7 +34,6 @@ export const Control = props => {
 
 		if (inputValue === '') {
 			props.onChange?.(0)
-			setStringValue('0')
 			return
 		}
 
@@ -50,14 +45,12 @@ export const Control = props => {
 		}
 
 		if (isEndingWithFloatingPoint) {
-			setStringValue(inputValue.replace(',', '.'))
 			return
 		}
 
 		const floatValue = parseFloat(inputValue.replace(',', '.'))
 		if (!Number.isNaN(floatValue)) {
 			props.onChange(floatValue)
-			setStringValue(stringify(floatValue))
 		}
 	}
 
@@ -65,11 +58,11 @@ export const Control = props => {
 		<label className="min-w-min">
 			<input
 				className="appearance-none inherit-bg border-0 border-b-2 border-solid border-transparent font-light p-0 pb-3 inline-block text-right cursor-text w-full focus:border-teal-400 outline-none"
-				style={{ minWidth: '3ch', width: `${stringValue.length}ch` }}
-				type="text"
+				style={{ minWidth: '3ch', width: `${stringify(props.value).length}ch` }}
+				type="number"
 				inputMode="decimal"
-				value={stringValue}
-				onInput={emitChangeEvent}
+				value={props.value}
+				onInput={e => emitChangeEvent(e)}
 			/>
 		</label>
 	)
